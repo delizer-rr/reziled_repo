@@ -55,7 +55,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="btn">Зарегистрироваться</button>
+            <button type="submit" name="register_submit" class="btn">Зарегистрироваться</button>
         </form>
     </div>
 </body>
