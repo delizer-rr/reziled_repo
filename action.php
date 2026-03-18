@@ -7,10 +7,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Результат регистрации</h1>
-        
         <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Проверяем, это отправка формы регистрации или калькулятора?
+        if (isset($_POST['register_submit'])) {
+            // Это форма регистрации
+            ?>
+            <h1>Результат регистрации</h1>
+            <?php
+            
             // Проверяем обязательные поля
             if (!isset($_POST['email']) || empty($_POST['email'])) {
                 echo '<div class="result error">Ошибка: Email не заполнен!</div>';
@@ -28,9 +32,65 @@
                 echo '<p>Статус: ' . $_POST['status'] . '</p>';
                 echo '</div>';
             }
-            
-            echo '<p><a href="index.php" class="btn">Назад</a></p>';
         }
+        ?>
+        
+        <!-- Калькулятор всегда виден -->
+        <h2>Калькулятор</h2>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label>Число 1:</label>
+                <input type="number" name="num1" step="any" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Число 2:</label>
+                <input type="number" name="num2" step="any" required>
+            </div>
+            
+            <div class="calc-buttons">
+                <button type="submit" name="operation" value="add" class="btn">+</button>
+                <button type="submit" name="operation" value="subtract" class="btn">-</button>
+                <button type="submit" name="operation" value="multiply" class="btn">×</button>
+                <button type="submit" name="operation" value="divide" class="btn">÷</button>
+            </div>
+        </form>
+
+        <?php
+        // Обработка калькулятора
+        if (isset($_POST['operation'])) {
+            $num1 = $_POST['num1'];
+            $num2 = $_POST['num2'];
+            $op = $_POST['operation'];
+            
+            if (is_numeric($num1) && is_numeric($num2)) {
+                switch($op) {
+                    case 'add':
+                        $result = $num1 + $num2;
+                        break;
+                    case 'subtract':
+                        $result = $num1 - $num2;
+                        break;
+                    case 'multiply':
+                        $result = $num1 * $num2;
+                        break;
+                    case 'divide':
+                        if ($num2 == 0) {
+                            echo '<div class="result error">Ошибка: деление на ноль!</div>';
+                            $result = null;
+                        } else {
+                            $result = $num1 / $num2;
+                        }
+                        break;
+                }
+                
+                if (isset($result)) {
+                    echo '<div class="result">Результат: ' . $result . '</div>';
+                }
+            }
+        }
+        
+        echo '<p><a href="index.php" class="btn">На главную</a></p>';
         ?>
     </div>
 </body>
