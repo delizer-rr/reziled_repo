@@ -68,4 +68,35 @@ class Triangle extends Figure implements AreaCalculable {
         return "Это класс треугольника. У него " . $this->sidesCount . " стороны";
     }
 }
+
+
+$rect1 = new Rectangle(5, 10);
+$rect2 = new Rectangle(3, 7);
+
+$square1 = new Square(4);
+$square2 = new Square(6);
+
+$triangle1 = new Triangle(3, 4, 5);
+$triangle2 = new Triangle(6, 8, 10);
+
+echo "<h2>Прямоугольники</h2>";
+echo $rect1->infoAbout() . "<br>";
+echo "Площадь: " . $rect1->getArea() . "<br><br>";
+
+echo $rect2->infoAbout() . "<br>";
+echo "Площадь: " . $rect2->getArea() . "<br><br>";
+
+echo "<h2>Квадраты</h2>";
+echo $square1->infoAbout() . "<br>";
+echo "Площадь: " . $square1->getArea() . "<br><br>";
+
+echo $square2->infoAbout() . "<br>";
+echo "Площадь: " . $square2->getArea() . "<br><br>";
+
+echo "<h2>Треугольники</h2>";
+echo $triangle1->infoAbout() . "<br>";
+echo "Площадь: " . $triangle1->getArea() . "<br><br>";
+
+echo $triangle2->infoAbout() . "<br>";
+echo "Площадь: " . $triangle2->getArea() . "<br>";
 ?>
