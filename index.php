@@ -1,54 +1,41 @@
-<?php
-class Page {
-    protected string $name = "page";
-    protected string $template = "<div><p>It is a default page</p></div>";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная | Мой красивый сайт</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+</head>
+<body>
+    <?php include 'includes/header.php'; ?>
     
-    public function render(): void {
-        echo $this->template;
-    }
-}
-
-class BlogPage extends Page {
-    public function __construct() {
-        $this->name = "blog";
-        $this->template = "<div>
-            <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:5px;'>
-                <h3>🥒 Огурец</h3>
-                <p>Огурец - популярный овощ, используется в салатах</p>
+    <main>
+        <section class="hero">
+            <h1>Добро пожаловать!</h1>
+            <p>Это мой современный сайт, созданный с любовью и PHP</p>
+            <a href="/pages/about.php" class="btn">Узнать больше</a>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <div class="emoji">🚀</div>
+                <h3>Быстро</h3>
+                <p>Оптимизированная производительность</p>
             </div>
-            <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:5px;'>
-                <h3>🍅 Помидор</h3>
-                <p>Помидор - сочный овощ, богатый витаминами</p>
+            <div class="feature-card">
+                <div class="emoji">🎨</div>
+                <h3>Красиво</h3>
+                <p>Современный дизайн</p>
             </div>
-            <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:5px;'>
-                <h3>🫑 Перец</h3>
-                <p>Перец - хрустящий овощ, бывает разного цвета</p>
+            <div class="feature-card">
+                <div class="emoji">🔒</div>
+                <h3>Безопасно</h3>
+                <p>Надежная защита данных</p>
             </div>
-            <div style='border:1px solid #ccc; margin:10px; padding:10px; border-radius:5px;'>
-                <h3>🥕 Морковь</h3>
-                <p>Морковь - полезный овощ, содержит бета-каротин</p>
-            </div>
-        </div>";
-    }
-}
-
-echo "<div style='margin:20px;'>";
-echo "<a href='?page=page' style='margin-right:20px; padding:10px; background:#4CAF50; color:white; text-decoration:none; border-radius:5px;'>Главная страница</a>";
-echo "<a href='?page=blog' style='padding:10px; background:#2196F3; color:white; text-decoration:none; border-radius:5px;'>Блог об овощах</a>";
-echo "</div>";
-
-if(isset($_GET['page'])) {
-    if($_GET['page'] === 'page') {
-        $page = new Page();
-        $page->render();
-    } elseif($_GET['page'] === 'blog') {
-        $blog = new BlogPage();
-        $blog->render();
-    } else {
-        echo "<p>Страница не найдена</p>";
-    }
-} else {
-    $page = new Page();
-    $page->render();
-}
-?>
+        </section>
+    </main>
+    
+    <?php include 'includes/footer.php'; ?>
+</body>
+</html>
