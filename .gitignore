@@ -1,7 +1,40 @@
+# Секреты и конфиги
+.env
+.env.local
+.env.production
+config.local.php
+*.local.php
+secrets/
+credentials/
+
+# PostgreSQL и бэкапы
+*.sql
+*.dump
+*.backup
+backups/
+dumps/
+*.log
+pg_log/
+
+# PHP
+/vendor/
+composer.lock
+node_modules/
+
+# Кэш и временные файлы
+cache/
+tmp/
+temp/
+*.tmp
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Системные
 .DS_Store
 Thumbs.db
-*.log
-*.tmp
-*.temp
-config.php
-/vendor/
+desktop.ini
