@@ -1,45 +1,63 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная | Мой красивый сайт</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    
-    <main>
-        <section class="hero">
-            <h1>Добро пожаловать!</h1>
-            <p>Это мой современный сайт, созданный с любовью и PHP</p>
-            <a href="/pages/about.php" class="btn">Узнать больше</a>
-        </section>
+    <div class="container">
+        <h1>Регистрация</h1>
         
-        <section class="features">
-            <div class="feature-card">
-                <div class="emoji">🚀</div>
-                <h3>Быстро</h3>
-                <p>Оптимизированная производительность</p>
+        <form action="action.php" method="POST">
+            <!-- Имя -->
+            <div class="form-group">
+                <label>Имя:</label>
+                <input type="text" name="name" placeholder="Введите имя" required>
             </div>
-            <div class="feature-card">
-                <div class="emoji">🎨</div>
-                <h3>Красиво</h3>
-                <p>Современный дизайн</p>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" placeholder="email@example.com" required>
             </div>
-            <div class="feature-card">
-                <div class="emoji">🔒</div>
-                <h3>Безопасно</h3>
-                <p>Надежная защита данных</p>
+
+            <!-- Пароль -->
+            <div class="form-group">
+                <label>Пароль:</label>
+                <input type="password" name="password" placeholder="Введите пароль" required>
             </div>
-        </section>
-    </main>
-    
-    <?php include 'includes/footer.php'; ?>
+
+            <!-- Пол -->
+            <div class="form-group">
+                <label>Пол:</label>
+                <select name="gender" required>
+                    <option value="">Выберите пол</option>
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                </select>
+            </div>
+
+            <!-- Семейное положение -->
+            <div class="form-group">
+                <label>Семейное положение:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="status" value="Холост" required> Холост</label>
+                    <label><input type="radio" name="status" value="Женат"> Женат</label>
+                </div>
+            </div>
+
+            <!-- Согласие -->
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="agree" value="yes" required>
+                    Согласен с условиями
+                </label>
+            </div>
+
+            <button type="submit" name="register_submit" class="btn">Зарегистрироваться</button>
+        </form>
+    </div>
 </body>
 </html>
