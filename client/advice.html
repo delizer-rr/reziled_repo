@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💡 Советы | Мудрый лес</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f3b1f 0%, #1a6b2f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            border-left: 8px solid #4caf50;
+            border-right: 8px solid #4caf50;
+        }
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            color: #6b8c6e;
+            margin-bottom: 30px;
+        }
+        .advice-box {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #2e7d32;
+            font-weight: 500;
+            line-height: 1.5;
+            border: 2px solid #4caf50;
+        }
+        button {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+        .saved-section {
+            margin-top: 30px;
+            text-align: left;
+            border-top: 2px solid #c8e6c9;
+            padding-top: 20px;
+        }
+        .saved-section h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        .saved-item {
+            background: #f1f8e9;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #4caf50;
+        }
+        .saved-text {
+            flex: 1;
+            color: #1b5e20;
+        }
+        .delete-btn {
+            background: #ef5350;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+        }
+        .delete-btn:hover {
+            background: #e53935;
+        }
+        .empty {
+            text-align: center;
+            color: #9e9e9e;
+            padding: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a5d6a7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>💡 Мудрый лес</h1>
+            <div class="subtitle">Ежедневные мудрые советы</div>
+            
+            <div class="advice-box" id="advice">
+                🍃 Нажмите на кнопку, чтобы получить совет
+            </div>
+            
+            <button onclick="getAdvice()">🎲 Получить совет</button>
+            <button id="saveBtn" class="save-btn" style="display:none" onclick="saveAdvice()">💾 Сохранить совет</button>
+            
+            <div class="saved-section">
+                <h3>📚 Мои сохранённые советы</h3>
+                <div id="savedList"></div>
+            </div>
+        </div>
+        <footer>
+            <p>🌿 API: adviceslip.com | Сохранение в localStorage | Зелёная лаборатория 🌿</p>
+        </footer>
+    </div>
+    
+    <script>
+        let currentAdvice = null;
+        
+        function loadSaved() {
+            const saved = JSON.parse(localStorage.getItem('savedAdvices') || '[]');
+            const container = document.getElementById('savedList');
+            if (saved.length === 0) {
+                container.innerHTML = '<div class="empty">🌟 Нет сохранённых советов. Сохраните понравившийся!</div>';
+                return;
+            }
+            container.innerHTML = saved.map((advice, index) => `
+                <div class="saved-item">
+                    <span class="saved-text">💬 ${escapeHtml(advice)}</span>
+                    <button class="delete-btn" onclick="deleteAdvice(${index})">🗑️ Удалить</button>
+                </div>
+            `).join('');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        async function getAdvice() {
+            const adviceDiv = document.getElementById('advice');
+            adviceDiv.innerHTML = '🌀 Загрузка мудрости...';
+            
+            try {
+                const response = await fetch('https://api.adviceslip.com/advice');
+                const data = await response.json();
+                currentAdvice = data.slip.advice;
+                adviceDiv.innerHTML = `💬 ${escapeHtml(currentAdvice)}`;
+                document.getElementById('saveBtn').style.display = 'inline-block';
+            } catch(e) {
+                adviceDiv.innerHTML = '❌ Не удалось загрузить совет. Попробуйте позже.';
+            }
+        }
+        
+        function saveAdvice() {
+            if (!currentAdvice) return;
+            
+            const saved = JSON.parse(localStorage.getItem('savedAdvices') || '[]');
+            if (!saved.includes(currentAdvice)) {
+                saved.push(currentAdvice);
+                localStorage.setItem('savedAdvices', JSON.stringify(saved));
+                alert('✅ Совет сохранён в вашу коллекцию!');
+                loadSaved();
+            } else {
+                alert('📖 Этот совет уже есть в вашей коллекции!');
+            }
+        }
+        
+        function deleteAdvice(index) {
+            const saved = JSON.parse(localStorage.getItem('savedAdvices') || '[]');
+            const deleted = saved[index];
+            saved.splice(index, 1);
+            localStorage.setItem('savedAdvices', JSON.stringify(saved));
+            alert(`🗑️ Совет удалён: "${deleted.substring(0, 50)}..."`);
+            loadSaved();
+        }
+        
+        loadSaved();
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Факты о животных | Зоопарк знаний</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f3b1f 0%, #1a6b2f 50%, #0f3b1f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            color: #6b8c6e;
+            margin-bottom: 30px;
+        }
+        .animal-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .animal-btn {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .animal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .fact-box {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 20px 0;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #2e7d32;
+            font-weight: 500;
+            line-height: 1.5;
+            border: 2px solid #4caf50;
+        }
+        .animal-icon {
+            font-size: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a5d6a7;
+        }
+        .random-btn {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .animal-grid { gap: 10px; }
+            .animal-btn { padding: 8px 16px; font-size: 0.9rem; }
+            .fact-box { font-size: 1rem; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🐾 Зоопарк знаний</h1>
+            <div class="subtitle">Интересные факты о животных</div>
+            
+            <div class="animal-grid">
+                <button class="animal-btn" onclick="getFact('cat')">🐱 Кошка</button>
+                <button class="animal-btn" onclick="getFact('dog')">🐶 Собака</button>
+                <button class="animal-btn" onclick="getFact('panda')">🐼 Панда</button>
+                <button class="animal-btn" onclick="getFact('elephant')">🐘 Слон</button>
+                <button class="animal-btn" onclick="getFact('dolphin')">🐬 Дельфин</button>
+                <button class="animal-btn" onclick="getFact('penguin')">🐧 Пингвин</button>
+                <button class="animal-btn" onclick="getFact('lion')">🦁 Лев</button>
+                <button class="animal-btn" onclick="getFact('giraffe')">🦒 Жираф</button>
+                <button class="animal-btn" onclick="getFact('fox')">🦊 Лиса</button>
+                <button class="animal-btn" onclick="getFact('owl')">🦉 Сова</button>
+                <button class="animal-btn" onclick="getFact('butterfly')">🦋 Бабочка</button>
+                <button class="animal-btn" onclick="getFact('kangaroo')">🦘 Кенгуру</button>
+            </div>
+            
+            <button class="random-btn animal-btn" onclick="randomFact()">🎲 Случайный факт</button>
+            
+            <div class="fact-box" id="fact">
+                🦁 Выберите животное, чтобы узнать интересный факт
+            </div>
+        </div>
+        <footer>
+            <p>🌿 Интересные факты о животных | Лабораторная работа №19 🌿</p>
+        </footer>
+    </div>
+    
+    <script>
+        const facts = {
+            cat: [
+                '🐱 Кошки спят 16-18 часов в сутки!',
+                '🐱 У кошек 32 мышцы в каждом ухе!',
+                '🐱 Кошка может издавать около 100 различных звуков!',
+                '🐱 Усы помогают кошкам определять, пролезут ли они в отверстие!'
+            ],
+            dog: [
+                '🐶 Собаки понимают до 250 слов и жестов!',
+                '🐶 Нос собаки так же уникален, как отпечаток пальца у человека!',
+                '🐶 Собаки могут чувствовать запахи в 10000 раз лучше людей!',
+                '🐶 Хвост собаки показывает её настроение!'
+            ],
+            panda: [
+                '🐼 Большие панды едят бамбук до 14 часов в день!',
+                '🐼 Новорожденные панды весят как чашка чая - около 100 граммов!',
+                '🐼 У панд есть "ложный большой палец" для захвата бамбука!'
+            ],
+            elephant: [
+                '🐘 Слоны могут "слышать" ногами, улавливая вибрации земли!',
+                '🐘 Беременность у слона длится 22 месяца, это дольше всех млекопитающих!',
+                '🐘 Слоны помнят места и других слонов годами!'
+            ],
+            dolphin: [
+                '🐬 Дельфины дают друг другу имена!',
+                '🐬 Дельфины спят с одним открытым глазом!',
+                '🐬 Дельфины могут узнавать себя в зеркале!'
+            ],
+            penguin: [
+                '🐧 Императорские пингвины могут нырять на глубину до 500 метров!',
+                '🐧 Пингвины предлагают камешки самкам в качестве предложения!',
+                '🐧 Пингвины не умеют летать, но отлично плавают!'
+            ],
+            lion: [
+                '🦁 Львы спят до 20 часов в день!',
+                '🦁 Рев льва слышен на расстоянии до 8 километров!',
+                '🦁 Грива льва становится темнее с возрастом!'
+            ],
+            giraffe: [
+                '🦒 У жирафов такое же количество позвонков в шее, как у человека - 7!',
+                '🦒 Язык жирафа может достигать 45 см в длину!',
+                '🦒 Жирафы спят всего 2 часа в сутки!'
+            ],
+            fox: [
+                '🦊 Лисы используют хвост для общения и как одеяло в холода!',
+                '🦊 Лисы могут издавать около 40 различных звуков!',
+                '🦊 Лиса может слышать мышь под снегом!'
+            ],
+            owl: [
+                '🦉 Совы не могут вращать глазами, поэтому поворачивают голову на 270 градусов!',
+                '🦉 Совиные уши расположены асимметрично для лучшего определения источника звука!',
+                '🦉 Совы летают бесшумно благодаря особому строению перьев!'
+            ],
+            butterfly: [
+                '🦋 Бабочки пробуют вкус ногами!',
+                '🦋 Некоторые бабочки мигрируют на тысячи километров!',
+                '🦋 Крылья бабочки состоят из тысяч чешуек!'
+            ],
+            kangaroo: [
+                '🦘 Кенгуру не умеют прыгать назад!',
+                '🦘 Новорожденный кенгурёнок размером с фасолину!',
+                '🦘 Кенгуру могут прыгать на 9 метров в длину!'
+            ]
+        };
+        
+        function getFact(animal) {
+            const animalFacts = facts[animal];
+            if (!animalFacts) {
+                document.getElementById('fact').innerHTML = '❓ Факты об этом животном ещё не добавлены в нашу коллекцию.';
+                return;
+            }
+            const randomFact = animalFacts[Math.floor(Math.random() * animalFacts.length)];
+            document.getElementById('fact').innerHTML = randomFact;
+        }
+        
+        function randomFact() {
+            const animals = Object.keys(facts);
+            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            const animalFacts = facts[randomAnimal];
+            const randomFact = animalFacts[Math.floor(Math.random() * animalFacts.length)];
+            document.getElementById('fact').innerHTML = randomFact;
+        }
+    </script>
+</body>
+</html>
